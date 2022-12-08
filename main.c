@@ -23,8 +23,8 @@
 #include <stdio.h>
 
 #define SVC_TRUSTEDINSTALLER L"TrustedInstaller"
-#define STR_USAGE L"Usage: %S [/p] [/m] [/q] [/d] [/c <process>] <command/arguments>\n"
-#define STR_HELP L"Usage: %S (options) <command/arguments>\n\t[/h]: Show help.\n\t[/p]: Run the process in parallel.\n\t[/m]: Run as a command (with a temporary console dedicated).\n\t[/q]: Force surrounding the arguments passed to the process between quotes.\n\t[/d]: Force disabling the quotes surrounding the arguments passed to the process.\n\t[/c]: Run the specified process ('cmd' if no present).\n"
+#define STR_USAGE L"Usage: %S [/p] [/q] [/d] [/c <process>] <command/arguments>\n"
+#define STR_HELP L"Usage: %S (options) <command/arguments>\n\t[/h]: Show help.\n\t[/p]: Run the process in parallel.\n\t[/q]: Force surrounding the arguments passed to the process between quotes.\n\t[/d]: Force disabling the quotes surrounding the arguments passed to the process.\n\t[/c]: Run the specified process ('cmd' if no present).\n"
 
 /* For some reason this one is not defined in mingw headers */
 #define SE_DELEGATE_SESSION_USER_IMPERSONATE_NAME TEXT("SeDelegateSessionUserImpersonatePrivilege")
@@ -183,7 +183,7 @@ static HANDLE getTrustedInstallerHandle(void)
 }
 
 /* Create process with requested privileges */
-static int createProcess(wchar_t *name, BOOL wait, BOOL console)
+static int createProcess(wchar_t *name, BOOL wait)
 {
     PROCESS_INFORMATION processInfo = { 0 };
     STARTUPINFOEX startupInfo = { 0 };
@@ -203,12 +203,6 @@ static int createProcess(wchar_t *name, BOOL wait, BOOL console)
     startupInfo.StartupInfo.dwFlags = STARTF_USESHOWWINDOW;
     startupInfo.StartupInfo.wShowWindow = SW_SHOWNORMAL;
 
-    flags = CREATE_SUSPENDED | EXTENDED_STARTUPINFO_PRESENT;
-
-    /* If console flag is set */
-    if (console)
-        flags |= CREATE_NO_WINDOW;
-
     /* Initialize process attributes */
     InitializeProcThreadAttributeList(NULL, 1, 0, (PSIZE_T)&attributeListLength);
 
@@ -219,7 +213,7 @@ static int createProcess(wchar_t *name, BOOL wait, BOOL console)
     UpdateProcThreadAttribute(startupInfo.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_PARENT_PROCESS, &tipHandle, sizeof(HANDLE), NULL, NULL);
 
     /* Create the process */
-    if (CreateProcess(NULL, name, NULL, NULL, FALSE, flags, NULL, NULL, &startupInfo.StartupInfo, &processInfo))
+    if (CreateProcess(NULL, name, NULL, NULL, FALSE, CREATE_SUSPENDED | CREATE_NO_WINDOW | EXTENDED_STARTUPINFO_PRESENT, NULL, NULL, &startupInfo.StartupInfo, &processInfo))
     {
         HANDLE processToken;
 
@@ -287,7 +281,6 @@ int wmain(int argc, wchar_t **argv)
 {
     /* Variable declaration */
     DWORD mode;
-    BOOL console = FALSE;
     BOOL parallel = FALSE;
     BOOL hasProcess = FALSE;
     wchar_t *process = NULL;
@@ -325,12 +318,6 @@ int wmain(int argc, wchar_t **argv)
                 case 'p':
                 case 'P':
                     parallel = TRUE;
-                    break;
-
-                /* Execute as a command (by creating a console environment) */
-                case 'm':
-                case 'M':
-                    console = TRUE;
                     break;
 
                 /* Force surrounding the arguments passed to the process by quotes */
@@ -397,7 +384,6 @@ int wmain(int argc, wchar_t **argv)
 
             /* Override the parallel flag */
             parallel = TRUE;
-            console = TRUE;
         }
 
         command = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, wcslen(commandName) * sizeof(wchar_t));
@@ -437,7 +423,7 @@ int wmain(int argc, wchar_t **argv)
     }
 
     /* Create process with privileges */
-    retval = createProcess(command, !parallel, console);
+    retval = createProcess(command, !parallel);
 
     /* Free the allocated command line */
     HeapFree(GetProcessHeap(), 0, command);

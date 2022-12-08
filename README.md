@@ -17,7 +17,6 @@ The following options are used:
 |:-------:|----------------------------------------------------------------------|
 | `/h`    | Display the help message.                                            |
 | `/p`    | Run the given process in parallel (do not wait for completion).      |
-| `/m`    | Used to instruct the command to run in a dedicated console.          |
 | `/q`    | Used to force surrounding arguments with quotes (useful for spaces). |
 | `/d`    | Used to force disabling surrounding with quotes for arguments.       |
 | `/c`    | Used to specify the process to run (`cmd` if not present).           |
