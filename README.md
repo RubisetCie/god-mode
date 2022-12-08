@@ -9,6 +9,7 @@ Double click the executable and grant admin privileges. A command prompt will ap
 
 ### From the Command Prompt
 Simply run superUser from the command prompt (preferably one with admin privileges) using the following arguments:
+
 ```runpwrd (options) <process/arguments>```
 
 The following options are used:
@@ -26,10 +27,13 @@ The following options are used:
 ## Build
 
 First build the resource file using [GNU Windres](https://www.gnu.org/software/binutils/):
+
 ```windres --codepage=65001 -O coff resource.rc resource.res```
 
 You may also omit the icon from the build by defining the following macro:
+
 ```windres --codepage=65001 -O coff -DOMIT_ICON resource.rc resource.res```
 
 Then build the executable using [GCC](https://gcc.gnu.org/):
+
 ```gcc -municode -std=c99 -g0 -Os -s -ffunction-sections -fdata-sections -Wl,--gc-sections -o runpwrd.exe main.c resource.res```
