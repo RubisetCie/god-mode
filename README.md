@@ -16,6 +16,7 @@ The following options are used:
 |  Option |  Description                                                         |
 |:-------:|----------------------------------------------------------------------|
 | `/h`    | Display the help message.                                            |
+| `/m`    | Create a new console window to host the new process.                 |
 | `/p`    | Run the given process in parallel (do not wait for completion).      |
 | `/q`    | Used to force surrounding arguments with quotes (useful for spaces). |
 | `/d`    | Used to force disabling surrounding with quotes for arguments.       |

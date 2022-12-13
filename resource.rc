@@ -5,8 +5,8 @@
 
 /* Version info */
 1 VERSIONINFO
-    FILEVERSION     1, 0, 0, 0
-    PRODUCTVERSION  1, 0, 0, 0
+    FILEVERSION     1, 1, 0, 0
+    PRODUCTVERSION  1, 1, 0, 0
     FILEOS          0x0 /* VOS_NT_WINDOWS32 */
     FILETYPE        0x0 /* VFT_APP */
     BEGIN
@@ -15,10 +15,10 @@
             BLOCK "080904E4"
             BEGIN
                 VALUE "FileDescription", "Allows you to run any command or process with power privileges."
-                VALUE "FileVersion", "1.0"
+                VALUE "FileVersion", "1.1"
                 VALUE "OriginalFilename", "runpwrd"
                 VALUE "ProductName", "Run Powered"
-                VALUE "ProductVersion", "1.0"
+                VALUE "ProductVersion", "1.1"
                 VALUE "CompanyName", "Rubis et Compagnie"
                 VALUE "LegalCopyright", "Rubis et Compagnie"
             END
