@@ -396,8 +396,9 @@ int wmain(int argc, wchar_t **argv)
         {
             commandName = L"cmd.exe";
 
-            /* Override the parallel flag */
+            /* Override the parallel and console flag */
             parallel = TRUE;
+            console = TRUE;
         }
 
         command = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, wcslen(commandName) * sizeof(wchar_t));
