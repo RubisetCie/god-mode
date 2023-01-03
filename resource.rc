@@ -16,8 +16,8 @@
             BEGIN
                 VALUE "FileDescription", "Allows you to run any command or process with power privileges."
                 VALUE "FileVersion", "1.1"
-                VALUE "OriginalFilename", "runpwrd"
-                VALUE "ProductName", "Run Powered"
+                VALUE "OriginalFilename", "god"
+                VALUE "ProductName", "God Mode"
                 VALUE "ProductVersion", "1.1"
                 VALUE "CompanyName", "Rubis et Compagnie"
                 VALUE "LegalCopyright", "Rubis et Compagnie"
