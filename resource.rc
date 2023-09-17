@@ -5,8 +5,8 @@
 
 /* Version info */
 1 VERSIONINFO
-    FILEVERSION     1, 1, 0, 1
-    PRODUCTVERSION  1, 1, 0, 1
+    FILEVERSION     1, 1, 3, 0
+    PRODUCTVERSION  1, 1, 3, 0
     FILEOS          0x0 /* VOS_NT_WINDOWS32 */
     FILETYPE        0x0 /* VFT_APP */
     BEGIN
